@@ -102,6 +102,12 @@ view: order_items {
     type: count
     drill_fields: [detail*]
   }
+
+  measure: total_shipping {
+    type: sum_distinct
+    sql_distinct_key: ${order_id} ;;
+    sql: ${sale_price} ;;
+    }
   measure: min {
     type: min
     sql: ${sale_price} ;;
