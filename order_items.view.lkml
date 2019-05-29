@@ -103,11 +103,12 @@ view: order_items {
     drill_fields: [detail*]
   }
 
-  measure: total_shipping {
+  measure: Order_Total{
     type: sum_distinct
     sql_distinct_key: ${order_id} ;;
     sql: ${sale_price} ;;
     }
+
   measure: min {
     type: min
     sql: ${sale_price} ;;
@@ -115,6 +116,7 @@ view: order_items {
   measure: Sum {
     type: sum
     sql: ${sale_price} ;;
+    value_format_name: usd
     }
   measure: max {
     type: max
@@ -134,6 +136,8 @@ view: order_items {
 
   measure: percent_completed_orders {
     type: number
+    label: "Completed Orders in Perc"
+    description: "Percentage contribution to completed orders"
     sql:(1.0* ${number_of_completed_orders})/ nullif(${number_of_orders},0) ;;
     value_format_name: percent_2
   }
