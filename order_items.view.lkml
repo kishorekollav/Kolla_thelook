@@ -105,37 +105,44 @@ view: order_items {
 
   measure: Order_Total{
     type: sum_distinct
+    drill_fields: [detail*]
     sql_distinct_key: ${order_id} ;;
     sql: ${sale_price} ;;
     }
 
   measure: min {
     type: min
+    drill_fields: [detail*]
     sql: ${sale_price} ;;
     }
   measure: Sum {
     type: sum
+    drill_fields: [detail*]
     sql: ${sale_price} ;;
-    value_format_name: usd
+    value_format_name: usd_0
     }
   measure: max {
     type: max
+    drill_fields: [detail*]
     sql: ${sale_price} ;;
   }
   measure: avg {
     label: "Average"
     description: "Average of sale price"
     type: average
+    drill_fields: [detail*]
     sql: ${sale_price} ;;
   }
 
   measure: number_of_orders{
     type: count_distinct
+    drill_fields: [detail*]
     sql: ${order_id} ;;
   }
 
   measure: percent_completed_orders {
     type: number
+    drill_fields: [detail*]
     label: "Completed Orders in Perc"
     description: "Percentage contribution to completed orders"
     sql:(1.0* ${number_of_completed_orders})/ nullif(${number_of_orders},0) ;;
@@ -144,6 +151,7 @@ view: order_items {
 
   measure: number_of_completed_orders {
     type: count_distinct
+    drill_fields: [detail*]
     label: "Completed Orders"
     description: "Will give unique orders completed"
     sql: ${order_id} ;;
@@ -161,7 +169,19 @@ view: order_items {
     value_format_name: usd
       }
 
+  measure: Total_Inven_cost_by_department{
+    type: sum
+    sql: ${TABLE}.sale_price;;
+    filters: {
+      field: inventory_items.product_department
+      value: "Men"
+    }
+    filters: {
+      field: inventory_items.product_department
+      value: "Women"
+    }
 
+}
 
   # ----- Sets of fields for drilling ------
   set: detail {

@@ -38,12 +38,13 @@ view: users {
   dimension: city {
     type: string
     sql: ${TABLE}."CITY" ;;
-  }
+      }
 
   dimension: country {
     type: string
     map_layer_name: countries
     sql: ${TABLE}."COUNTRY" ;;
+    drill_fields: [state, city,zip]
   }
 
   dimension_group: created {
@@ -84,6 +85,7 @@ view: users {
     type: location
     sql_latitude: ${TABLE}."LATITUDE" ;;
     sql_longitude:${TABLE}."LONGITUDE" ;;
+    drill_fields: [state, city, country,zip]
   }
 
   #dimension: longitude {
